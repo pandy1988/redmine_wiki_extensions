@@ -92,8 +92,10 @@ class WikiExtensionsController < ApplicationController
     target_id = params[:target_id].to_i
     key = params[:key]
     vote = WikiExtensionsVote.find_or_create(target_class_name, target_id, key)
-    vote.countup
-    vote.save!
+    if User.current.logged?
+      vote.countup
+      vote.save!
+    end
 
     render :inline => '<input type="checkbox"' + (vote.count % 2 > 0 ? ' checked' : '') + '/>'
   end
