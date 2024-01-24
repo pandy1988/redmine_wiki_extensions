@@ -31,14 +31,15 @@ module WikiExtensionsVoteMacro
       voteid = "wikiext-vote-#{rand(9999999)}"
       vote = WikiExtensionsVote.find_or_create(obj.class.name, obj.id, key)
 
-      o = '<span class="wikiext-vote">'
       url = url_for({:controller => 'wiki_extensions', :action => 'vote',
           :id => @project, :target_class_name => obj.class.name, :target_id => obj.id,
           :key => key, :url => @_request.url})
-      o << link_to_function(label, "$('##{voteid}').load('#{url}')")
-      o << '<span id="' + voteid + '"> '
-      o << " #{vote.count}"
-      o << '</span>'
+      function = "$('##{voteid}').load('#{url}'); return false;"
+
+      o = '<span class="wikiext-vote">'
+      o << '<label id="' + voteid + '" onClick="' + function + '">'
+      o << '<input type="checkbox"' + (vote.count % 2 > 0 ? ' checked' : '') + '/>'
+      o << '</label>'
       o << '</span>'
       return o.html_safe
     end

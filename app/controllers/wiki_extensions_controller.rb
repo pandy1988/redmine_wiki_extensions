@@ -92,14 +92,10 @@ class WikiExtensionsController < ApplicationController
     target_id = params[:target_id].to_i
     key = params[:key]
     vote = WikiExtensionsVote.find_or_create(target_class_name, target_id, key)
-    session[:wiki_extension_voted] = Hash.new unless session[:wiki_extension_voted]
-    unless session[:wiki_extension_voted][vote.id]
-      vote.countup
-      vote.save!
-      session[:wiki_extension_voted][vote.id] = 1
-    end
-    
-    render :inline => " #{vote.count}"
+    vote.countup
+    vote.save!
+
+    render :inline => '<input type="checkbox"' + (vote.count % 2 > 0 ? ' checked' : '') + '/>'
   end
 
   def stylesheet
