@@ -1,6 +1,6 @@
 ## YAML Template.
 ---
-- emoticon: ":)"
+- emoticon: ':)'
   image: smile.png
   title: Smile
 - emoticon: ':('
@@ -20,7 +20,7 @@
   title: Check
 - emoticon: '(x)'
   image: x_mark.png
-  title: X_mark
+  title: X mark
 - emoticon: '(!)'
   image: warning.png
   title: Warning

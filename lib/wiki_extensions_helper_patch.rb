@@ -25,20 +25,17 @@ module WikiExtensionsHelperPatch
       baseurl = Redmine::Utils.relative_url_root
       imageurl = baseurl + "/plugin_assets/redmine_wiki_extensions/images"
       content_for :header_tags do
-        # o = stylesheet_link_tag("wiki_smiles.css", :plugin => "redmine_wiki_extensions")
-        # o << javascript_include_tag("wiki_smiles.js", :plugin => "redmine_wiki_extensions")
-        # emoticons = WikiExtensions::Emoticons.new
-        # o << javascript_tag do
-        #   oo = ""
-        #   oo << raw("redmine_base_url = '#{baseurl}';\n")
-        #   oo << "var buttons = [];"
-        #   emoticons.emoticons.each { |emoticon|
-        #     oo << "buttons.push(['#{emoticon["emoticon"].gsub("'", "\\'")}', '#{emoticon["image"]}', '#{emoticon["title"]}']);\n"
-        #   }
-        #   oo << "setEmoticonButtons(buttons, '#{imageurl}');\n"
-        #   oo.html_safe
-        # end
-        # o.html_safe
+        emoticons = WikiExtensionsEmoticons::Emoticons.new
+        o = stylesheet_link_tag("wiki_smiles.css", :plugin => "redmine_wiki_extensions")
+        o << javascript_include_tag("wiki_smiles.js", :plugin => "redmine_wiki_extensions")
+        o << javascript_tag do
+          oo = ""
+          emoticons.emoticons.each { |emoticon|
+            oo << "emoticons.push(['#{emoticon["emoticon"]}', '#{emoticon["title"]}', '#{imageurl}/#{emoticon["image"]}']);\n"
+          }
+          oo.html_safe
+        end
+        o.html_safe
       end
       @heads_for_wiki_smiles_included = true
     end
